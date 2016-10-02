@@ -1,0 +1,8 @@
+//
+// Created by adrian on 02.10.16.
+//
+
+#ifndef TENSORFLOW_XLOGX_SETTINGS_H
+#define TENSORFLOW_XLOGX_SETTINGS_H
+
+#endif //TENSORFLOW_XLOGX_SETTINGS_H
