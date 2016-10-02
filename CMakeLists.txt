@@ -16,7 +16,7 @@ endif()
 message(STATUS ${TF_INC})
 find_package(CUDA)
 
-set(SRC_FILE_NAME src/xlogx_op.cc)
+set(SRC_FILE_NAME src/xlogx_op.cc  src/xlogx_grad_op.cc)
 
 if (CUDA_FOUND)
   set(CUDA_NVCC_FLAGS -I ${TF_INC} -D_FORCE_INLINES -D GOOGLE_CUDA=1 -x cu -Xcompiler -fPIC)
