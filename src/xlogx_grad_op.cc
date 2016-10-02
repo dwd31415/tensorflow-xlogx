@@ -31,7 +31,7 @@ public:
           if (input(i) == 0){
 #endif
               // This is not smooth, but there is no limit (that is a number) of log(x)+1 as x -> 0, but the derivative would have to be negative.
-              output(i) = -1;
+              output(i) = FIXED_DERIVATIVE_VALUE;
           } else {
               output(i) = 1 + logf(input(i));
           }

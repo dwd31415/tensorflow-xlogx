@@ -30,7 +30,7 @@ __global__ void cuda_op_gradient(const float *in, const int N, float* out){
 #else
         if (in[i] == 0){
 #endif
-            out[i] = 0.0f;
+            out[i] = FIXED_DERIVATIVE_VALUE;
         } else {
             out[i] = 1 + logf(in[i]);
         }
