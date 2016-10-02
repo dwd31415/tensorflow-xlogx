@@ -5,12 +5,14 @@ REGISTER_OP("XLogXOp")
 .Output("series: float32");
 
 #include "tensorflow/core/framework/op_kernel.h"
+#include <math.h>
+#define THROW_ERROR_FOR_NEGATIVE_LOGS_ON_CPU 0
 
 using namespace tensorflow;
 
-class ExampleOp : public OpKernel {
+class XLogXOp : public OpKernel {
 public:
-    explicit ExampleOp(OpKernelConstruction* context) : OpKernel(context) {}
+    explicit XLogXOp(OpKernelConstruction* context) : OpKernel(context) {}
 
     void Compute(OpKernelContext* context) override {
       // Get input tensor
@@ -22,12 +24,18 @@ public:
                                                      &output_tensor));
       auto output = output_tensor->flat<float>();
       const int N = input.size();
-      for (int i = 1; i < N; i++) {
-          if (input(i) == -1){
-              output(i) = input(i);
-          } else{
-              output(i) = (float)i;
+      for (int i = 0; i < N; i++) {
+          if (input(i) == 0){
+              output(i) = 0;
+          } else {
+              output(i) = input(i) * logf(input(i));
           }
+#if THROW_ERROR_FOR_NEGATIVE_LOGS_ON_CPU
+          if if(input(i) < 0){
+              context->CtxFailureWithWarning(errors::InvalidArgument("x*log(x) is only defined for x>= 0"));
+              return;
+          }
+#endif
       }
   }
 };
@@ -35,11 +43,11 @@ public:
 #if GOOGLE_CUDA
 #define EIGEN_USE_GPU
 
-void cuda_op_launcher(const float *in, const int N, float* out);
+bool cuda_op_launcher(const float *in, const int N, float* out);
 
-class ExampleOpGPU : public OpKernel {
+class XLogXOpGPU : public OpKernel {
 public:
-    explicit ExampleOpGPU(OpKernelConstruction* context) : OpKernel(context) {}
+    explicit XLogXOpGPU(OpKernelConstruction* context) : OpKernel(context) {}
 
     void Compute(OpKernelContext* context) override {
         // Get input tensor
@@ -51,10 +59,13 @@ public:
                                                          &output_tensor));
         auto output = output_tensor->flat<float>();
         const int N = input.size();
-        cuda_op_launcher(input.data(), N, output.data());
+        if (!cuda_op_launcher(input.data(), N, output.data())){
+            context->CtxFailureWithWarning(errors::Internal("FATAL CUDA ERROR"));
+            return;
+        }
     }
 };
 
-REGISTER_KERNEL_BUILDER(Name("XLogXOp").Device(DEVICE_GPU), ExampleOpGPU);
+REGISTER_KERNEL_BUILDER(Name("XLogXOp").Device(DEVICE_GPU), XLogXOpGPU);
 #endif
-REGISTER_KERNEL_BUILDER(Name("XLogXOp").Device(DEVICE_CPU), ExampleOp);
+REGISTER_KERNEL_BUILDER(Name("XLogXOp").Device(DEVICE_CPU), XLogXOp);
