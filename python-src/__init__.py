@@ -1,8 +1,14 @@
 import tensorflow as tf
+import sys
 from tensorflow.python.framework import ops
 from pkg_resources import resource_filename, Requirement
 
-path_to_lib = resource_filename(__name__, 'libtensorflow-xlogx.so')
+path_to_lib = None
+if sys.platform == 'darwin':
+    path_to_lib = resource_filename(__name__, 'libtensorflow-xlogx.dylib')
+else:
+    path_to_lib = resource_filename(__name__, 'libtensorflow-xlogx.so')
+
 xlogx_module = tf.load_op_library(path_to_lib)
 
 

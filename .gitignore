@@ -36,3 +36,6 @@ Makefile
 build/
 dist/
 *.egg-info/
+
+python-src/libtensorflow-xlogx.dylib
+python-src/libtensorflow-xlogx.so
