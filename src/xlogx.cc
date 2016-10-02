@@ -1,6 +1,6 @@
 #include "tensorflow/core/framework/op.h"
 
-REGISTER_OP("ExampleOp")
+REGISTER_OP("XLogXOp")
 .Input("in: float32")
 .Output("series: float32");
 
@@ -55,6 +55,6 @@ public:
     }
 };
 
-REGISTER_KERNEL_BUILDER(Name("ExampleOp").Device(DEVICE_GPU), ExampleOpGPU);
+REGISTER_KERNEL_BUILDER(Name("XLogXOp").Device(DEVICE_GPU), ExampleOpGPU);
 #endif
-REGISTER_KERNEL_BUILDER(Name("ExampleOp").Device(DEVICE_CPU), ExampleOp);
+REGISTER_KERNEL_BUILDER(Name("XLogXOp").Device(DEVICE_CPU), ExampleOp);

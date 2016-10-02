@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 
-project (cpp_example)
+project (tensorflow-xlogx)
 set(CMAKE_BUILD_TYPE Release)
 
 execute_process(COMMAND bash "-c" "python3 -c 'import tensorflow as tf; print(tf.sysconfig.get_include())'" OUTPUT_VARIABLE TF_INC)
@@ -16,7 +16,7 @@ endif()
 message(STATUS ${TF_INC})
 find_package(CUDA)
 
-set(SRC_FILE_NAME src/example.cc)
+set(SRC_FILE_NAME src/xlogx_op.cc)
 
 if (CUDA_FOUND)
   set(CUDA_NVCC_FLAGS -I ${TF_INC} -D_FORCE_INLINES -D GOOGLE_CUDA=1 -x cu -Xcompiler -fPIC)
@@ -27,4 +27,4 @@ else()
 endif ()
 
 include_directories(${TF_INC})
-add_library(cpp_example SHARED ${SRC_FILE_NAME} ${OP_O})
+add_library(tensorflow-xlogx SHARED ${SRC_FILE_NAME} ${OP_O})
