@@ -33,3 +33,6 @@ CMakeCache.txt
 cmake_install.cmake
 Makefile
 .idea/
+build/
+dist/
+*.egg-info/
