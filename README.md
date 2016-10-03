@@ -1,5 +1,5 @@
 # tensorflow-xlogx
-This package implements a C++/Cuda OP for evaluating this &#8467; function:
+This package implements a C++/Cuda OP for evaluating this &#8467; function(called x\*log(x) for reasons of simplicity in the rest of the README file):
 
 <img src="https://raw.githubusercontent.com/dwd31415/tensorflow-xlogx/master/formulas/formula_ell.png" width="300">
 
