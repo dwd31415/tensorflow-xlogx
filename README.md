@@ -12,6 +12,7 @@ Just clone this repo and run
 ```
 python3 setup.py install
 ```
+TensorFlow already has to be installed and should be up to date. 
 ### Configuration 
 By changing the content of src/settings.h and reinstalling you can configure this package.
 #### THROW_ERROR_FOR_NEGATIVE_LOGS_ON_CPU
@@ -30,3 +31,6 @@ The &#1013; mentioned in FIX_DERIVATIVE_FROM_0_TO_EPSILON.
 The value for the derivative of x\*log(x) for x=0 or 0	&#8804; x	&#8804; &#1013;(see FIX_DERIVATIVE_FROM_0_TO_EPSILON).
 
 *Default: -1.0*
+
+### Use Case
+Implementing the &#8467; function in tensorflow is to my knowledge only possible with some kind of switch, if raw performance is paramount this is very inefficent, by implementing &#8467; in pure C++ and CUDA C this package is a way around the need for symbolic switches in your TensorFlow graph. 
