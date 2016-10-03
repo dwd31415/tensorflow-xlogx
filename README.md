@@ -13,6 +13,19 @@ Just clone this repo and run
 python3 setup.py install
 ```
 TensorFlow already has to be installed and should be up to date. 
+### Example
+``` python
+import tensorflow as tf
+import numpy as np
+import matplotlib.pyplot as plt
+from tensorflow_xlogx import xlogx as tf_xlogx
+
+xs = np.linspace(0,3,100)
+sess = tf.Session()
+ys = sess.run(tf_xlogx(xs))
+plt.plot(xs,ys)
+plt.show()
+```
 ### Configuration 
 By changing the content of src/settings.h and reinstalling you can configure this package.
 #### THROW_ERROR_FOR_NEGATIVE_LOGS_ON_CPU
